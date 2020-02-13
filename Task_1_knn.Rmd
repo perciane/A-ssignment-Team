@@ -1,0 +1,54 @@
+---
+title: "task_1_knn"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+```{r}
+library(MASS) 
+data(Boston) 
+help(Boston)
+```
+
+```{r}
+x <- Boston$lstat 
+y <- Boston$medv 
+#plot(x,y)
+```
+
+```{r}
+knn.reg <- function(t, x, y, k=50){
+  d_t_x <- as.matrix(dist(c(t,x)))[1,-1]
+  d_t_x_k <- sort(d_t_x,partial=k)[k]
+  N_t_k <-  which(d_t_x <= d_t_x_k) 
+  m_hat <- sum(y[N_t_k])/k
+  return(m_hat)
+}
+```
+
+```{r}
+t <- 1:40
+m_hat_50 <- rep(0, length(t))
+m_hat_40 <- rep(0, length(t))
+m_hat_30 <- rep(0, length(t))
+m_hat_20 <- rep(0, length(t))
+for (i in 1:length(t)){
+  m_hat_50[i] <- knn.reg(t[i], x, y, 50)
+  m_hat_40[i] <- knn.reg(t[i], x, y, 40)
+  m_hat_30[i] <- knn.reg(t[i], x, y, 30)
+  m_hat_20[i] <- knn.reg(t[i], x, y, 20)
+}
+```
+
+```{r}
+plot(t, m_hat_50, type= "l", col = "red")
+lines(t, m_hat_40, type= "l", col = "blue")
+lines(t, m_hat_30, type= "l", col = "green")
+lines(t, m_hat_20, type= "l", col = "orange")
+
+```
+
