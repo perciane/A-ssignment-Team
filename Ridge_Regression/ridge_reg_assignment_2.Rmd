@@ -77,9 +77,34 @@ PMSE_vs <- function(x_t, y_t, x_val, y_val, lambda){
 
 ## Ridge Regression for the Boston Housing data
 
+Loading the (corrected) Boston Housing data
 ```{r}
 library(MASS)
 data(Boston)
 help(Boston)
+
+boston <- load("boston.Rdata")
 ```
+
+
+There is a package for Regularization. We are probably not supposed to use this...
+```{r}
+#install.packages("glmnet")
+library(glmnet)
+
+response <- "MEDV"
+explanatory <- c("CRIM", "ZN", "INDUS", "CHAS", "NOX", "RM", "AGE", "DIS", "RAD", "TAX", "PTRATIO", "B", "LSTAT")
+
+# cv.glmnet cannot handel factors -> "CHAS" is a factor
+boston.c$CHAS <- as.numeric(boston.c$CHAS)
+
+(ridge <- glmnet(y = boston.c$MEDV, x = as.matrix(boston.c[, explanatory]), alpha = 0))
+# alpha = 0: Ridge Regression
+# alpha = 1: Lasso Regression
+plot(ridge)
+
+(cv.ridge <- cv.glmnet(y = boston.c$MEDV, x = as.matrix(boston.c[, explanatory]), alpha = 0))
+plot(cv.ridge)
+```
+
 
