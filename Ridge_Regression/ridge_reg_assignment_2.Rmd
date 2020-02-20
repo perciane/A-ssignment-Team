@@ -1,17 +1,19 @@
 ---
-title: "ridge_reg_assignment_2"
-output: html_document
+title: "Ridge Regression"
+date: "25/02/20"
+author: "Gregoire Gasparini, Aurora Hofman, Sarah Musiol, Beatriu Tort"
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-##Task 1
 
+## Choosing the penalization parameter
 
 Testdate (to be removed later!)
-```{r}
+```{r, eval = FALSE}
 prostate <- read.table("/Users/aurorahofman/Documents/Utveksling/Stat_lær/week_2/prostate_data.txt", header=TRUE, row.names = 1)
 plot(prostate)
 train.sample <- which(prostate$train==TRUE) ##separate trainingsdata from testdata
@@ -38,7 +40,8 @@ lambda.v <- exp(seq(0,log(lambda.max+1),length=n_lambdas))-1 #lambda vector
 
 n_val <- length(Y_val)
 ```
-```{r}
+
+```{r, eval = FALSE}
 #make m_hat
 
 beta.path <- matrix(0,nrow=n.lambdas, ncol=p) ##making an empthy matrix
@@ -65,9 +68,18 @@ abline(v=log(1+lambda.CV),col=2,lty=2)
 ```
 
 
-```{r}
+```{r, eval = FALSE}
 PMSE_vs <- function(x_t, y_t, x_val, y_val, lambda){
   
 }
+```
+
+
+## Ridge Regression for the Boston Housing data
+
+```{r}
+library(MASS)
+data(Boston)
+help(Boston)
 ```
 
